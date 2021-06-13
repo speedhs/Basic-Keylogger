@@ -114,6 +114,13 @@ int save(int key)
 		case 222:
 			fout << "\"";
 			break;
+		default:
+		        if (i % 2 != 0)
+		         fout << (char)(key + 32);
+			else
+		         fout << (char)key;
+		        break;
+	
 		}
 	}
 
