@@ -47,7 +47,9 @@ int save(int key)
         i++;
     }
 
-    
+    else if (key >= 48 && key <= 57)
+				fout<< (char)key;
+
 
     else
     {
